@@ -2,110 +2,85 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Happy Valentine's Day ❤️</title>
+<title>Valentine Love Card ❤️</title>
 
 <style>
 
-/* ===== Animated Background ===== */
 body{
     margin:0;
     height:100vh;
     display:flex;
     justify-content:center;
     align-items:center;
-    font-family:Segoe UI, sans-serif;
-    overflow:hidden;
+    background: linear-gradient(135deg,#ff6a9f,#ff9ccf);
+    font-family:Arial;
     perspective:1200px;
-    background: linear-gradient(-45deg,#ff4e88,#ff77aa,#ff99cc,#ffcce6);
-    background-size:400% 400%;
-    animation:bgMove 12s ease infinite;
 }
 
-@keyframes bgMove{
-    0%{background-position:0% 50%;}
-    50%{background-position:100% 50%;}
-    100%{background-position:0% 50%;}
+/* Flip Container */
+.flip-card{
+    width:350px;
+    height:450px;
+    perspective:1000px;
+    cursor:pointer;
 }
 
-/* ===== Glass Card ===== */
-.card{
-    width:420px;
-    padding:50px;
-    border-radius:25px;
-    background:rgba(255,255,255,0.15);
-    backdrop-filter:blur(18px);
-    text-align:center;
-    color:white;
-    box-shadow:0 25px 60px rgba(0,0,0,0.35);
+/* Inner */
+.flip-inner{
+    width:100%;
+    height:100%;
+    position:relative;
     transform-style:preserve-3d;
-    animation:fadeIn 2s ease;
+    transition:transform 0.8s;
 }
 
-@keyframes fadeIn{
-    from{opacity:0; transform:translateY(80px);}
-    to{opacity:1; transform:translateY(0);}
+.flip-card.flipped .flip-inner{
+    transform:rotateY(180deg);
 }
 
-/* ===== Text ===== */
-h1{
-    font-size:3em;
-    margin:10px 0;
-    text-shadow:0 0 20px rgba(255,255,255,0.7);
-}
-
-p{
-    font-size:1.5em;
-}
-
-/* ===== Main Heart ===== */
-.mainHeart{
-    font-size:70px;
-    animation:heartBeat 1s infinite;
-    filter: drop-shadow(0 0 20px hotpink);
-}
-
-@keyframes heartBeat{
-    0%{transform:scale(1);}
-    50%{transform:scale(1.3);}
-    100%{transform:scale(1);}
-}
-
-/* ===== Floating Hearts ===== */
-.floatHeart{
+/* Front + Back */
+.flip-front, .flip-back{
     position:absolute;
-    bottom:-50px;
-    font-size:20px;
-    animation:floatUp linear forwards;
+    width:100%;
+    height:100%;
+    border-radius:20px;
+    backface-visibility:hidden;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    box-shadow:0 20px 40px rgba(0,0,0,0.3);
 }
 
-@keyframes floatUp{
-    from{transform:translateY(0); opacity:1;}
-    to{transform:translateY(-110vh); opacity:0;}
+/* Front Card */
+.flip-front{
+    background:rgba(255,255,255,0.2);
+    backdrop-filter:blur(10px);
+    color:white;
 }
 
-/* ===== Sparkles ===== */
-.sparkle{
-    position:absolute;
-    width:6px;
-    height:6px;
+.heart{
+    font-size:60px;
+    animation:beat 1s infinite;
+}
+
+@keyframes beat{
+    0%{transform:scale(1)}
+    50%{transform:scale(1.2)}
+    100%{transform:scale(1)}
+}
+
+/* Back Image */
+.flip-back{
     background:white;
-    border-radius:50%;
-    animation:spark 2s infinite;
+    transform:rotateY(180deg);
+    overflow:hidden;
 }
 
-@keyframes spark{
-    0%{transform:scale(0); opacity:0;}
-    50%{transform:scale(1.5); opacity:1;}
-    100%{transform:scale(0); opacity:0;}
-}
-
-/* ===== Typing Cursor ===== */
-.cursor{
-    display:inline-block;
-    animation:blink 1s infinite;
-}
-@keyframes blink{
-    50%{opacity:0;}
+.flip-back img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
 }
 
 </style>
@@ -113,78 +88,31 @@ p{
 
 <body>
 
-<div class="card" id="card">
-    <div class="mainHeart">❤️</div>
-    <h1>Happy Valentine's Day</h1>
-    <p id="typing"></p>
+<div class="flip-card" id="card">
+    <div class="flip-inner">
+
+        <!-- Front Side -->
+        <div class="flip-front">
+            <div class="heart">❤️</div>
+            <h2>Happy Valentine's Day</h2>
+            <p>My Love Phiju 💖</p>
+            <p>Click Me ❤️</p>
+        </div>
+
+        <!-- Back Side (Image) -->
+        <div class="flip-back">
+            <img src="love.jpg" alt="Love Image">
+        </div>
+
+    </div>
 </div>
 
 <script>
 
-/* ===== Typing Animation ===== */
-const message="My Love Phiju 💖 Forever Yours ❤️";
-let i=0;
-function typeText(){
-    if(i<message.length){
-        document.getElementById("typing").innerHTML=
-        message.substring(0,i+1)+"<span class='cursor'>|</span>";
-        i++;
-        setTimeout(typeText,60);
-    }
-}
-typeText();
-
-/* ===== Floating Hearts ===== */
-setInterval(()=>{
-    let h=document.createElement("div");
-    h.className="floatHeart";
-    h.innerHTML="❤️";
-    h.style.left=Math.random()*100+"vw";
-    h.style.fontSize=(15+Math.random()*35)+"px";
-    h.style.animationDuration=(5+Math.random()*5)+"s";
-    document.body.appendChild(h);
-    setTimeout(()=>h.remove(),9000);
-},300);
-
-/* ===== Sparkles ===== */
-setInterval(()=>{
-    let s=document.createElement("div");
-    s.className="sparkle";
-    s.style.left=Math.random()*100+"vw";
-    s.style.top=Math.random()*100+"vh";
-    document.body.appendChild(s);
-    setTimeout(()=>s.remove(),2000);
-},200);
-
-/* ===== 3D Tilt ===== */
 const card=document.getElementById("card");
-document.addEventListener("mousemove",(e)=>{
-    let x=(window.innerWidth/2-e.pageX)/25;
-    let y=(window.innerHeight/2-e.pageY)/25;
-    card.style.transform=`rotateY(${x}deg) rotateX(${-y}deg)`;
-});
 
-/* ===== Click Heart Burst ===== */
-document.addEventListener("click",(e)=>{
-    for(let j=0;j<10;j++){
-        let burst=document.createElement("div");
-        burst.innerHTML="💖";
-        burst.style.position="absolute";
-        burst.style.left=e.pageX+"px";
-        burst.style.top=e.pageY+"px";
-        burst.style.fontSize="25px";
-        burst.style.transition="all 1s ease";
-
-        document.body.appendChild(burst);
-
-        setTimeout(()=>{
-            burst.style.left=(e.pageX+(Math.random()*200-100))+"px";
-            burst.style.top=(e.pageY+(Math.random()*200-100))+"px";
-            burst.style.opacity=0;
-        },50);
-
-        setTimeout(()=>burst.remove(),1000);
-    }
+card.addEventListener("click",()=>{
+    card.classList.toggle("flipped");
 });
 
 </script>
